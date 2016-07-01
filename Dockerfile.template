@@ -1,0 +1,33 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-python
+
+RUN apt-get update && apt-get install -yq \
+    build-essential \
+    python-dev \
+    git \
+    scons \
+    swig && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set our working directory
+WORKDIR /usr/src/app
+
+# Install neopixel library
+RUN git clone https://github.com/jgarff/rpi_ws281x.git && cd rpi_ws281x && scons && cd python && python setup.py install
+
+# Install PN532 library
+RUN git clone https://github.com/josephroberts/Adafruit_Python_PN532.git && cd Adafruit_Python_PN532 && python setup.py install
+
+# Copy requirements.txt first for better cache on later pushes
+COPY ./requirements.txt /requirements.txt
+
+# pip install python deps from requirements.txt on the resin.io build server
+RUN pip install -r /requirements.txt
+
+# This will copy all files in our root to the working  directory in the container
+COPY . ./
+
+# switch off systemd init system in container to enable auto-restart
+ENV INITSYSTEM off
+
+# main.py will run when container starts up on the device
+CMD ["python","main.py"]
