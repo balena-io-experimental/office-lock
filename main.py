@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 
-import time, sys, binascii, signal, os
+import time, sys, binascii, os
 
 import Adafruit_PN532 as PN532
 import Adafruit_GPIO as GPIO
 from neopixel import *
-from flask import Flask
-from multiprocessing import Process, Queue
 
 # GPIO config
 gpio            = None
@@ -25,19 +23,18 @@ LED_FREQ_HZ     = 800000
 LED_DMA         = 5
 LED_BRIGHTNESS  = 255
 LED_INVERT      = False
-LED_TIME        = 0.2
 
 # Relay config
 RELAY_PIN       = 4
-UNLOCK_TIME     = 3
-
-# Flask config
-# app = Flask(__name__)
-# process = None
-# queue = Queue()
 
 def main():
     try:
+        # Load env vars
+        global led_time
+        led_time = float(os.getenv("LED_TIME", 0.2))
+        global unlock_time
+        unlock_time = float(os.getenv("UNLOCK_TIME", 3))
+
         # Configure GPIO
         global gpio
         gpio = GPIO.get_platform_gpio()
@@ -48,8 +45,6 @@ def main():
 
         # Create an instance of the PN532 class
         pn532 = PN532.PN532(cs=CS_PIN, sclk=SCLK_PIN, mosi=MOSI_PIN, miso=MISO_PIN, gpio=gpio)
-
-        # Call begin to initialize communication with the PN532.  Must be done before any other calls to the PN532!
         pn532.begin()
 
         # Get the firmware version from the chip and print it out
@@ -69,11 +64,6 @@ def main():
         cards = load_cards()
         for card in cards:
             print(card)
-
-        # Start flask server
-        # global process
-        # process = Process(target = startFlask)
-        # process.start()
 
         # Main loop
         while True:
@@ -101,12 +91,6 @@ def main():
             else:
                 unauthorized()
 
-            # # Process queue
-            # if not queue.empty():
-            #     if queue.get() == 'unlock':
-            #         authorized()
-            #     queue.clear()
-
     except Exception as e:
         # Handle any other error
         print('Error: %s' % e)
@@ -116,26 +100,22 @@ def main():
         print('Locking the door')
         gpio.set_low(RELAY_PIN)
 
-        # Tidy up process
-        # global process
-        # process.join()
-
 def authorized():
     print('Card authorized')
     for i in range(3):
         setColor(Color(255, 0, 0))
-        time.sleep(LED_TIME)
+        time.sleep(led_time)
         setColor(Color(0, 0, 0))
-        time.sleep(LED_TIME)
+        time.sleep(led_time)
     unlock_door()
 
 def unauthorized():
     print('Card unauthorized')
     for i in range(3):
         setColor(Color(0, 255, 0))
-        time.sleep(LED_TIME)
+        time.sleep(led_time)
         setColor(Color(0, 0, 0))
-        time.sleep(LED_TIME)
+        time.sleep(led_time)
 
 def setColor(color):
     for i in range(strip.numPixels()):
@@ -155,46 +135,11 @@ def load_cards():
             return cards
 
 def unlock_door():
-    print('Unlocking door for %d seconds' % UNLOCK_TIME)
+    print('Unlocking door for %d seconds' % unlock_time)
     gpio.set_high(RELAY_PIN)
-    time.sleep(UNLOCK_TIME)
+    time.sleep(unlock_time)
     print('Locking the door')
     gpio.set_low(RELAY_PIN)
-
-# def startFlask():
-#     app.run(debug=True, use_reloader=False, host='localhost')
-#
-# @app.route('/v1/unlock', methods=['POST')
-# def device():
-#     response = Response()
-#     response.data = ''
-#     response.status_code = 200
-#
-#     try:
-#         json = request.get_json()
-#         if 'user' in json and 'password' in json:
-#             user = os.getenv("USER", "null")
-#             password = os.getenv("PASSWORD", "null")
-#
-#             if user != 'null' and password != 'null' and json['user'] == user and json['password'] == password:
-#                 global queue
-#                 queue.put('unlock')
-#
-#             else:
-#                 response.data = 'Unauthorized'
-#                 response.status_code = 401
-#         else:
-#             response.data = 'Unauthorized'
-#             response.status_code = 401
-#
-#     except TypeError as e:
-#         response.data = e
-#         response.status_code = 500
-#     except KeyError as e:
-#         response.data = e
-#         response.status_code = 500
-#
-#     return response
 
 if __name__ == '__main__':
     sys.dont_write_bytecode = True
