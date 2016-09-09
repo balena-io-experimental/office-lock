@@ -1,5 +1,5 @@
 # office-lock
-Resin based RFID lock system used to get into our office. 
+Resin based RFID lock system used to get into our office.
 Supports the following key types:
  - NFC/RFID Type 1 thru 4 tags
  - Oyster cards
@@ -35,5 +35,10 @@ CARD_1 | 00906fe3 | Card 1 ID
 Add you own keys naming them `CARD_0`, `CARD_1`, `CARD_2` etc
 
 ## Pictures and videos
-[![Office lock](http://img.youtube.com/vi/9A6gQqRCM8w/0.jpg)](http://www.youtube.com/watch?v=9A6gQqRCM8w "Office lock")
+Watch the video [here!](https://www.youtube.com/watch?v=9A6gQqRCM8w)
 
+![Side](https://raw.githubusercontent.com/resin-io-playground/office-lock/master/images/side.jpg)
+
+![Top](https://raw.githubusercontent.com/resin-io-playground/office-lock/master/images/top.jpg)
+
+![Bottom](https://raw.githubusercontent.com/resin-io-playground/office-lock/master/images/bottom.jpg)
