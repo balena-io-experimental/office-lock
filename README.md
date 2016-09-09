@@ -4,7 +4,6 @@ Supports the following key types:
  - NFC/RFID Type 1 thru 4 tags
  - Oyster cards
  - Contactless debit cards
- - Android and Apple pay
 
 ## Parts list
 Name | Link | Qty
@@ -20,7 +19,7 @@ Relay | [Grove](https://www.seeedstudio.com/Grove---Relay-p-769.html) | 1
 Hook-up Wire  | [Adafruit](https://www.adafruit.com/products/1311) | 1
 
 ## Assembly
-Coming soon!
+![Fritzing](https://raw.githubusercontent.com/resin-io-playground/office-lock/master/images/fritzing.png)
 
 ## Getting started
 - Sign up on [resin.io](https://dashboard.resin.io/signup)

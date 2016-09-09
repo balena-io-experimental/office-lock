@@ -5,6 +5,8 @@ import time, sys, binascii, os
 import Adafruit_PN532 as PN532
 import Adafruit_GPIO as GPIO
 from neopixel import *
+from flask import Flask
+from flask import request
 
 # GPIO config
 gpio            = None
@@ -27,6 +29,9 @@ LED_INVERT      = False
 # Relay config
 RELAY_PIN       = 4
 
+# Flask server
+app = Flask(__name__)
+
 def main():
     try:
         # Load env vars
@@ -34,6 +39,8 @@ def main():
         led_time = float(os.getenv("LED_TIME", 0.2))
         global unlock_time
         unlock_time = float(os.getenv("UNLOCK_TIME", 3))
+        global secret_key
+        secret_key = os.getenv("SECRET_KEY", "NOT_SET")
 
         # Configure GPIO
         global gpio
@@ -64,6 +71,9 @@ def main():
         cards = load_cards()
         for card in cards:
             print(card)
+            
+        # Start Flask server
+        app.run(host='0.0.0.0', port=80)
 
         # Main loop
         while True:
@@ -141,6 +151,15 @@ def unlock_door():
     print('Locking the door')
     gpio.set_low(RELAY_PIN)
 
+@app.route('/api/<secret>')
+def api(secret):
+    print('Received request, secret: %s', secret)
+    if secret_key != "NOT_SET" and secret_key == secret :
+        authorized()
+        return "Authorized"
+    else:
+        return "Unauthorized"
+        
 if __name__ == '__main__':
     sys.dont_write_bytecode = True
     main()
