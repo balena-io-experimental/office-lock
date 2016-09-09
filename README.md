@@ -7,7 +7,17 @@ Supports the following key types:
  - Android and Apple pay
 
 ## Parts list
-Coming soon!
+Name | Link | Qty
+------------ | ------------- | ------------ | -------------
+Raspberry Pi 3 | [Adafruit](https://www.adafruit.com/products/3055) | 1
+5V 2.4A power supply | [Adafruit](https://www.adafruit.com/product/1995) | 1
+8 GB microSD card | [Amazon](https://www.amazon.com/Kingston-microSDHC-Memory-SDC4-8GBET/dp/B00200K1TS/ref=sr_1_76?ie=UTF8&qid=1473416044&sr=8-76&keywords=8gb+micro+sd+card) | 1
+PN532 NFC/RFID controller | [Adafruit](https://www.adafruit.com/product/789) | 1
+13.56MHZ RFID/NFC tag selection | [Adafruit](https://www.adafruit.com/products/365) | 1
+NeoPixel ring | [Adafruit](https://www.adafruit.com/products/1643) | 1
+Perma-proto hat | [Adafruit](https://www.adafruit.com/products/2310) | 1
+Relay | [Grove](https://www.seeedstudio.com/Grove---Relay-p-769.html) | 1
+Hook-up Wire  | [Adafruit](https://www.adafruit.com/products/1311) | 1
 
 ## Assembly
 Coming soon!
