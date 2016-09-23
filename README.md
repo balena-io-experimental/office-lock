@@ -1,6 +1,9 @@
 # office-lock
 Resin based RFID lock system used to get into our office.
-Supports the following key types:
+
+Unlock the door using any of the supported key types or by making a GET request to the API endpoint with the secret key.
+
+Support key types:
  - NFC/RFID Type 1 thru 4 tags
  - Oyster cards
  - Contactless debit cards
@@ -34,6 +37,7 @@ Variable Name | Default | Description
 ------------ | ------------- | -------------
 LED_TIME | 0.2 | The LED ring flashing speed
 UNLOCK_TIME | 3 | The time the door is unlocked for
+SECRET_KEY | "" | The secret key used to open the door from the API endpoint
 
 ## Add access keys via [environment variables](https://docs.resin.io/management/env-vars/)
 Variable Name | Default | Description
@@ -42,6 +46,12 @@ CARD_0 | 00906fe3 | Card 0 ID
 CARD_1 | 00906fe3 | Card 1 ID
 
 Add you own keys naming them `CARD_0`, `CARD_1`, `CARD_2` etc
+
+## Enable [public URL](http://docs.resin.io/management/devices/#enable-public-device-url)
+Open the door with a GET request. For example:
+```
+curl -X GET https://7082d8f659ef4d03c25bc24a18debec363d37cb4da641eb6c79658e0c5e46b.resindevice.io/api/<SECRET_KEY>
+```
 
 ## Pictures and videos
 Watch the video [here!](https://www.youtube.com/watch?v=9A6gQqRCM8w)
