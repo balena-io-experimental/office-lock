@@ -153,7 +153,7 @@ def unlock_door():
 
 @app.route('/api/<secret>')
 def api(secret):
-    print('Received request, secret: %s', secret)
+    print('Received request, secret: ', secret)
     if secret_key != "NOT_SET" and secret_key == secret :
         authorized()
         return "Authorized"
