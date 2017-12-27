@@ -10,7 +10,7 @@ Support key types:
 
 ## Parts list
 Name | Link | Qty
------------- | ------------- | ------------ | -------------
+------------ | ------------- | ------------
 Raspberry Pi 3 | [Adafruit](https://www.adafruit.com/products/3055) | 1
 5V 2.4A power supply | [Adafruit](https://www.adafruit.com/product/1995) | 1
 8 GB microSD card | [Amazon](https://www.amazon.com/Kingston-microSDHC-Memory-SDC4-8GBET/dp/B00200K1TS/ref=sr_1_76?ie=UTF8&qid=1473416044&sr=8-76&keywords=8gb+micro+sd+card) | 1
